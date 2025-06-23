@@ -1,1 +1,0 @@
-Create database if not exists inventory_service;

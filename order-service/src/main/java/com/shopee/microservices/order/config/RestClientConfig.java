@@ -1,5 +1,7 @@
 package com.shopee.microservices.order.config;
 
+import io.micrometer.observation.ObservationRegistry;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import com.shopee.microservices.order.client.InventoryClient;
 import org.springframework.context.annotation.Bean;
@@ -12,9 +14,11 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 
 @Configuration
+@RequiredArgsConstructor
 public class RestClientConfig {
     @Value("${inventory.url}")
     private String inventoryServiceURL;
+    private final ObservationRegistry observationRegistry;
 
     @Bean
     public ClientHttpRequestFactory clientHttpRequestFactory(){
@@ -28,6 +32,7 @@ public class RestClientConfig {
         RestClient restClient = RestClient.builder()
                 .baseUrl(inventoryServiceURL)
                 .requestFactory(clientHttpRequestFactory)
+                .observationRegistry(observationRegistry)
                 .build();
 
 

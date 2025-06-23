@@ -44,3 +44,6 @@ Thumbs.db
 # MySQL socket files
 *.sock
 api-gateway/volume-data/mysql_keycloak_data/mysql.sock
+
+# Docker volumes
+**/volume-data/

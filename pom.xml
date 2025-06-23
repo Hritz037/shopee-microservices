@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.4.3</version>
+    <relativePath/> <!-- lookup parent from repository -->
+</parent>
+<groupId>com.shopee.microservices</groupId>
+<artifactId>shopee-microservices</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+<packaging>pom</packaging>
+<name>shopee-microservices</name>
+<modules>
+<module>api-gateway</module>
+<module>product-service</module>
+<module>order-service</module>
+<module>inventory-service</module>
+<module>notification-service</module>
+</modules>
+
+<properties>
+    <java.version>21</java.version>
+    <spring-cloud.version>2024.0.1</spring-cloud.version>
+    <dockerPassword>${dockerPassword}</dockerPassword>
+<!--    <assertj.version>3.25.2</assertj.version>-->
+</properties>
+    <dependencyManagement>
+        <dependencies>
+            <!-- 1️⃣ Spring Boot’s BOM is already brought in via your parent = spring-boot-starter-parent -->
+            <!-- 2️⃣ Now import Spring Cloud’s BOM so all spring-cloud-* modules resolve -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>spring-releases</id>-->
+<!--            <name>Spring Releases</name>-->
+<!--            <url>https://repo.spring.io/release</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <image>
+                    <name>hritika457/${project.artifactId}</name>
+                    <publish>true</publish>
+                </image>
+                <docker>
+                    <publishRegistry>
+                        <username>hritika457</username>
+                        <password>${dockerPassword}</password>
+                    </publishRegistry>
+                </docker>
+
+                <excludes>
+                    <exclude>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclude>
+                </excludes>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+</project>
